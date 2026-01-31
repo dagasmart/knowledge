@@ -1,0 +1,36 @@
+{
+    "name": "dagasmart/knowledge",
+    "alias": "知识库管理",
+    "description": "管理知识库、分类以及 AI 驱动的知识场景，支持多租户和可见性控制",
+    "type": "library",
+    "version": "1.0.0",
+    "keywords": ["bizadmin", "extension"],
+    "homepage": "https://github.com/dagasmart/knowledge",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Administrator",
+            "email": "dagasmart@163.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "dagasmart/bizadmin": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "DagaSmart\\Knowledge\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "extra": {
+        "bizadmin": "DagaSmart\\Knowledge\\KnowledgeServiceProvider",
+        "laravel": {
+            "providers": [
+                "DagaSmart\\Knowledge\\KnowledgeServiceProvider"
+            ]
+        }
+    }
+}
