@@ -8,7 +8,7 @@ use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
-    protected $connection = 'bus';
+    protected $connection = null;
     private string $table = 'wiki_knowledge';
     /**
      * Run the migrations.
@@ -18,6 +18,7 @@ return new class extends Migration
         if (!Schema::hasTable($this->table)) {
             //创建表
             Schema::create($this->table, function (Blueprint $table) {
+                $table->comment('知识库-内容表');
                 $table->id();
 
                 $table->string('title', 100)->comment('知识标题');
@@ -26,6 +27,9 @@ return new class extends Migration
                 $table->text('content')->comment('知识内容');
 
                 $table->json('metadata')->nullable()->comment('扩展元数据（标签 / 来源 / 备注）');
+                $table->string('visibility', 32)->default('public')->comment('可见性: public=公开, internal=内部可见, private=私有');
+                $table->Integer('company_id')->nullable()->comment('所属公司/租户 ID');
+                $table->Integer('author_id')->nullable()->comment('创建者用户 ID');
 
                 $table->integer('priority')->default(100)->comment('优先级，越小越优先');
                 $table->tinyInteger('status')->default(1)->comment('状态 1启用 0停用');
@@ -33,7 +37,7 @@ return new class extends Migration
                 $table->timestamps();
                 $table->softDeletes();
 
-                $table->index(['code', 'scene', 'status']);
+                $table->index(['category_code', 'scene', 'status']);
             });
         }
     }

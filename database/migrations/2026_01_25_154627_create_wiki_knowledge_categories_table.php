@@ -8,7 +8,7 @@ use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
-    protected $connection = 'bus';
+    protected $connection = null;
     private string $table = 'wiki_knowledge_categories';
     /**
      * Run the migrations.
@@ -18,12 +18,13 @@ return new class extends Migration
             if (!Schema::hasTable($this->table)) {
                 //创建表
                 Schema::create($this->table, function (Blueprint $table) {
+                $table->comment('知识库-分类表');
                 $table->id();
 
-                $table->string('name', 50)
+                $table->string('name', 32)
                     ->comment('分类名称');
 
-                $table->string('code', 50)
+                $table->string('code', 32)
                     ->unique()
                     ->comment('分类标识');
 
@@ -34,6 +35,18 @@ return new class extends Migration
                 $table->boolean('status')
                     ->default(1)
                     ->comment('状态：1 启用 0 停用');
+
+                $table->string('visibility', 32)
+                    ->default('public')
+                    ->comment('可见性: public=公开, internal=内部可见, private=私有');
+
+                $table->Integer('company_id')
+                    ->nullable()
+                    ->comment('所属公司/租户 ID');
+
+                $table->Integer('author_id')
+                    ->nullable()
+                    ->comment('创建者用户 ID');
 
                 $table->timestamps();
                 $table->softDeletes();

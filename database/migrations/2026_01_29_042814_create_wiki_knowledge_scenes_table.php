@@ -8,7 +8,7 @@ use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
-    protected $connection = 'bus';
+    protected $connection = null;
     private string $table = 'wiki_knowledge_scenes';
     /**
      * Run the migrations.
@@ -18,6 +18,7 @@ return new class extends Migration
         if (!Schema::hasTable($this->table)) {
             //创建表
             Schema::create($this->table, function (Blueprint $table) {
+                $table->comment('知识库-场景表');
                 $table->id();
 
                 // 所属公司/租户
