@@ -1,23 +1,24 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
-
 
 return new class extends Migration
 {
     protected $connection = null;
+
     private string $table = 'wiki_knowledge_categories';
+
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-            if (!Schema::hasTable($this->table)) {
-                //创建表
-                Schema::create($this->table, function (Blueprint $table) {
+        if (! Schema::hasTable($this->table)) {
+            // 创建表
+            Schema::create($this->table, function (Blueprint $table) {
                 $table->comment('知识库-分类表');
                 $table->id();
 
@@ -54,7 +55,6 @@ return new class extends Migration
         }
     }
 
-
     /**
      * 迁移回滚
      * Reverse the migrations.
@@ -62,14 +62,13 @@ return new class extends Migration
     public function down(): void
     {
         if (Schema::hasTable($this->table)) {
-            //检查是否存在数据
+            // 检查是否存在数据
             $exists = DB::table($this->table)->exists();
-            //不存在数据时，删除表
-            if (!$exists) {
-                //删除 reverse
+            // 不存在数据时，删除表
+            if (! $exists) {
+                // 删除 reverse
                 Schema::dropIfExists($this->table);
             }
         }
     }
-
 };
